@@ -3,6 +3,7 @@ wristleftX="";
 wristleftY="";
 wristrightX="";
 wristrightY="";
+score_leftWrist=0;
 function preload(){
     sound=loadSound("music.mp3");
 }
@@ -18,12 +19,15 @@ function draw(){
   image(video,0,0,600,500);
   fill("red");
   stroke("red");
+  if(score_leftWrist>0.2){
   circle(wristleftX,wristleftY,20);
   leftWristX=Number(wristleftX);
   remove_decimals=floor(leftWristX);
   volume=remove_decimals/500;
   document.getElementById("volume_result").innerHTML="Volume= "+volume;
   sound.setVolume(volume);
+  }
+  
 }
 function play(){
     sound.play();
@@ -36,11 +40,14 @@ function modelLoaded(){
 function gotposes(results){
     if(results.length>0){
        console.log(results);
+       score_leftWrist=results[0].pose.keypoints[9].score;
+       console.log("Score= "+score_leftWrist);
        wristleftX=results[0].pose.leftWrist.x;
        wristleftY=results[0].pose.leftWrist.y;
        console.log("Left wrist x= "+wristleftX+"Left wrist y= "+wristleftY);
        wristrightX=results[0].pose.rightWrist.x;
        wristrightY=results[0].pose.rightWrist.y;
        console.log("Right wrist x= "+wristrightX+"Right wrist y= "+wristrightY);
+       
     }
 }
