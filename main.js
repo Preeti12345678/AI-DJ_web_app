@@ -15,20 +15,6 @@ function setup(){
     poseNet=ml5.poseNet(video,"modelLoaded");
     poseNet.on('pose', gotposes);
 }
-function draw(){
-  image(video,0,0,600,500);
-  fill("red");
-  stroke("red");
-  if(score_leftWrist>0.2){
-  circle(wristleftX,wristleftY,20);
-  leftWristX=Number(wristleftX);
-  remove_decimals=floor(leftWristX);
-  volume=remove_decimals/500;
-  document.getElementById("volume_result").innerHTML="Volume= "+volume;
-  sound.setVolume(volume);
-  }
-  
-}
 function play(){
     sound.play();
     sound.setVolume(1);
@@ -51,3 +37,39 @@ function gotposes(results){
        
     }
 }
+function draw(){
+    image(video,0,0,600,500);
+    fill("red");
+    stroke("red");
+    circle(wristrightX,wristrightY,20);
+
+    if(wristrightY>0 && wristrightY<=100){
+        document.getElementById("speed_result").innerHTML="Speed=0.5x";
+        sound.rate(0.5);
+    }
+    else if(wristrightY>100 && wristrightY<=200){
+        document.getElementById("speed_result").innerHTML="Speed=1x";
+        sound.rate(1);
+    }
+    else if(wristrightY>200 && wristrightY<=300){
+        document.getElementById("speed_result").innerHTML="Speed=1.5x";
+        sound.rate(1.5);
+    }
+    else if(wristrightY>300 && wristrightY<=400){
+        document.getElementById("speed_result").innerHTML="Speed=2x";
+        sound.rate(2);
+    }
+    else if(wristrightY>400 && wristrightY<=500){
+        document.getElementById("speed_result").innerHTML="Speed=2.5x";
+        sound.rate(2.5);
+    }
+    if(score_leftWrist>0.2){
+        circle(wristleftX,wristleftY,20);
+        leftWristX=Number(wristleftX);
+        remove_decimals=floor(leftWristX);
+        volume=remove_decimals/500;
+        document.getElementById("volume_result").innerHTML="Volume= "+volume;
+        sound.setVolume(volume);
+        }
+
+  }
